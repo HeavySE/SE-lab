@@ -1,7 +1,8 @@
 SE-lab
 ======
 
-labs for SE
+labs for our team in Software Engineering class in Software School, Fudan University.
+2014.2 -- 2014.6
 
 Content
 ======
