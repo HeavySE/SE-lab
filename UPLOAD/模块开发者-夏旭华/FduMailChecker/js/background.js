@@ -133,6 +133,20 @@ var getUnread = function(){
   });
 }
 
+var login = function(){
+  $.ajax({
+        url:"http://10.131.228.215/fMail.php/Index/login",
+        data: {
+          username : storage.getItem("uid"),
+          password : storage.getItem("password")
+        }, 
+        success : function(){
+          pollingMails();
+        },
+        type : "Post"
+      });
+}
+
 $(document).ready(function(){
 	init();
 });
@@ -151,7 +165,7 @@ var init = function(){
       return setTimeout(init,3000);
   }
   else{
-      pollingMails();
+      login();
   }
   // $.ajax({
   //   url : "mail.fudan.edu.cn/coremail/index.php?uid=11302010006&password=020635&action%3Alogin=",
@@ -172,6 +186,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
         }, 
         success:function(data){
           sendResponse(data);
+          pollingMails();
         },
         type : "Post"
       });
