@@ -48,8 +48,15 @@ var showMailBox = function(){
 	}
 }
 
-var showFullMessage = function(){
-	alert("show Full");
+var showFullMessage = function(uid){
+	$("#"+uid+" .fulltext").toggleClass("hidden");
+	$("#"+uid+" .summary").toggleClass("hidden");
+	if($("#"+uid+" .fulltext").hasClass("hidden")){
+		$("#"+uid+" .more img").attr("src","../img/more.png");
+	}
+	else{
+		$("#"+uid+" .more img").attr("src","../img/compose.png");
+	}
 }
 
 var forward = function(){
@@ -81,6 +88,13 @@ var read = function(uid){
 var logout = function(){
 	storage.removeItem("uid");
 	document.location.reload();
+}
+
+var refresh = function(){
+	chrome.extension.sendRequest({
+		command : "refresh"
+	});
+	return pollMail();
 }
 
 var pollMail = function(){
@@ -192,7 +206,7 @@ var _init = function(){
 		});
 
 		$(".refresh").click(function(){
-			pollMail();
+			refresh();
 		})
 
 		$(".top .title").click(function(){

@@ -200,3 +200,16 @@ a.s{
 	padding-bottom: 7px;
 	border-bottom: 1px #ddddff groove 
 }
+
+.fullText{
+	font-family: "Comic Sans MS","Microsoft Yahei", cursive !important;
+	font-size: 13px !important;
+	color: #4c6cc4;
+	width: 430px;
+	margin-top: 1px;
+	margin-left: 5px;
+}
+
+.hidden{
+	display: none;
+}

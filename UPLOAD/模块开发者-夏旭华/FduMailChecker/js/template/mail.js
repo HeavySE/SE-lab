@@ -33,6 +33,7 @@ mailTemplate = function(mail) {
   "      </div>\n\n"+
   "      <div class=\"summary\" mailId=\"" + mail.id + "\">\n" + summary + "\n"+
   "     </div>\n"+
+  "     <div class=\"fulltext hidden\" mailId=\"" + mail.id + "\">\n" + mail.summary + "</div>"
   "   </div>";;
 };
  

@@ -6,7 +6,9 @@ var audio;
 var storage = window.localStorage;
 var loopTimer;
 var animTimer;
+var refreshTimer;
 var animDelay = 10;
+var maildata = void 0;
 
 var stopAnimate = function() {
   if (animTimer != null) {
@@ -58,6 +60,18 @@ var doAnimate = function() {
 var playSound = function(){
   audio.load();
   audio.play();
+}
+
+var refresh = function(){
+  if(refreshTimer != null)
+    clearTimeout(refreshTimer);
+  $.ajax({
+      url:"http://10.131.228.215/fMail.php/Index/getHeaders",
+        success:function(data){
+          maildata = data;
+        }
+  });
+  return refreshTimer = setTimeout(refresh,30000);
 }
 
 function notLogin(){
@@ -142,6 +156,7 @@ var login = function(){
         }, 
         success : function(){
           pollingMails();
+          refresh();
         },
         type : "Post"
       });
@@ -186,6 +201,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
         }, 
         success:function(data){
           sendResponse(data);
+          refresh();
           pollingMails();
         },
         type : "Post"
@@ -208,13 +224,20 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
       });
     }
     else if(request.command == "headers"){
-        $.ajax({
-          url:"http://10.131.228.215/fMail.php/Index/getHeaders",
-          success:function(data){
-           sendResponse(data);
+        if(maildata != null)
+          sendResponse(maildata);
+        else{
+          $.ajax({
+            url:"http://10.131.228.215/fMail.php/Index/getHeaders",
+            success:function(data){
+              maildata = data;
+              sendResponse(maildata);
+            }
+          });
         }
-      });
+    }
+    else if(request.command == "refresh"){
+      refresh();
     }
 });
-
 
